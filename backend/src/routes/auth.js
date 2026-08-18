@@ -117,7 +117,7 @@ router.get("/callback", async (req, res) => {
         delete req.session.oauthState;
         delete req.session.codeVerifier;
 
-        res.redirect("http://localhost:5173/");
+        res.redirect(`${process.env.FRONTEND_URL}/`);
 
     } catch (error) {
         console.error(
@@ -144,7 +144,7 @@ router.get("/logout", (req, res) => {
 
         res.clearCookie("connect.sid");
 
-        res.redirect("http://localhost:5173/");
+        res.redirect(`${process.env.FRONTEND_URL}/`);
     });
 });
 
