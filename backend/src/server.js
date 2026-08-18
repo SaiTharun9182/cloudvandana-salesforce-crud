@@ -10,6 +10,8 @@ const recordsRoutes = require("./routes/records");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.set("trust proxy", 1);
+
 app.use(cors({
     origin: true,
     credentials: true
@@ -23,8 +25,10 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax"
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production"
+            ? "none"
+            : "lax"
     }
 }));
 
