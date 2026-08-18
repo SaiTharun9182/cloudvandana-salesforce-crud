@@ -117,7 +117,17 @@ router.get("/callback", async (req, res) => {
         delete req.session.oauthState;
         delete req.session.codeVerifier;
 
-        res.redirect(`${process.env.FRONTEND_URL}/`);
+        req.session.save((err) => {
+    if (err) {
+        console.error("Session save error:", err);
+
+        return res.status(500).json({
+            error: "Failed to save Salesforce session"
+        });
+    }
+
+    res.redirect(`${process.env.FRONTEND_URL}/`);
+    });
 
     } catch (error) {
         console.error(
